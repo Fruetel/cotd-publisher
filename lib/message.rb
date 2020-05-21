@@ -26,10 +26,16 @@ class Message
   end
 
   def population
-    @population ||= data.dig(:data, :attributes, :population)
+    @population ||= number = data.dig(:data, :attributes, :population)
+    number_format(number)
   end
 
   def area
-    @area ||= data.dig(:data, :attributes, :geography, :area)
+    @area ||= number = data.dig(:data, :attributes, :geography, :area)
+    number_format(number)
+  end
+
+  def number_format(number)
+    sprintf('%d', number).gsub(/(\d)(?=\d{3}+$)/, '\1,')
   end
 end
