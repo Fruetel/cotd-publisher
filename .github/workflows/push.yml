@@ -1,0 +1,22 @@
+name: Publish docker container
+on: push
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Build test container
+      run: docker-compose build --pull
+    - name: Test
+      run: docker-compose run app test
+    - name: Build the Docker image
+      run: docker build -t fruetel/cotd-publisher:${GITHUB_SHA} .
+    - name: Tag the Docker image
+      run: docker tag fruetel/cotd-publisher:${GITHUB_SHA} fruetel/cotd-publisher:latest
+    - name: Docker Login
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - name: Docker push
+      run: docker push fruetel/cotd-publisher
