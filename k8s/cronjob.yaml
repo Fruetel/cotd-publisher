@@ -1,0 +1,35 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: publish
+spec:
+  schedule: "13 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cotd-publisher
+            image: fruetel/cotd-publisher:latest
+            env:
+              - name: TWITTER_CONSUMER_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: twitter
+                    key: consumer_key
+              - name: TWITTER_CONSUMER_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: twitter
+                    key: consumer_secret
+              - name: TWITTER_ACCESS_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: twitter
+                    key: access_token
+              - name: TWITTER_ACCESS_TOKEN_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: twitter
+                    key: access_token_secret
+          restartPolicy: Never
