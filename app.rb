@@ -23,7 +23,7 @@ client =
   end
 
 
-logger.info("Fetching from API", endpoint: Environment.api_endpoint)
+logger.info("Fetching from API. Endpoint: #{Environment.api_endpoint}")
 
 api_response = Faraday.get(Environment.api_endpoint)
 
