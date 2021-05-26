@@ -19,7 +19,7 @@ client =
     config.access_token_secret = Environment.twitter_access_token_secret
   end
 
-api_response = Faraday.get('https://api.countryoftheday.com/countries/random')
+api_response = Faraday.get(Environment.api_endpoint)
 
 raise StandardError if api_response.status != 200
 

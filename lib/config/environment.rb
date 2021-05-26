@@ -19,5 +19,9 @@ class Environment
     def twitter_access_token_secret
       ENV['TWITTER_ACCESS_TOKEN_SECRET']
     end
+
+    def api_endpoint
+      ENV['API_ENDPOINT'] || 'https://api.countryoftheday.com/countries/random'
+    end
   end
 end
