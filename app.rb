@@ -7,8 +7,11 @@ require 'config/initializer'
 require 'twitter'
 require 'faraday'
 require 'oj'
+require 'logger'
 
 require 'message'
+
+logger = Logger.new(STDOUT)
 
 client =
   Twitter::REST::Client.new do |config|
@@ -18,6 +21,9 @@ client =
     config.access_token = Environment.twitter_access_token
     config.access_token_secret = Environment.twitter_access_token_secret
   end
+
+
+logger.info("Fetching from API", endpoint: Environment.api_endpoint)
 
 api_response = Faraday.get(Environment.api_endpoint)
 
